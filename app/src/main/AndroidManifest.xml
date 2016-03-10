@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.admin.balloonapp">
+    
+    <!--this requests camera permmission-->
+    
+    <uses-feature android:name="android.hardware.camera"
+                android:required="true" />
+                
+    <!-- it is in the manifest file
+     "uses-feature" asks android to access a featre defined by the name that follows -->
 
     <application
         android:allowBackup="true"
