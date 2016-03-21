@@ -38,23 +38,25 @@ import android.content.pm.PackageManager;
 public class MainActivity extends Activity {
 
 
+    private boolean cameraFront;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        findFrontFacingCamera();
     }
+
     private int findFrontFacingCamera() {
         int CameraId = -1;//Set an integer variable called CameraId to -1
         int Number_Of_Cameras = Camera.getNumberOfCameras();
         //Set Number_Of_Cameras to the integer returned from the function .getNumberOfCameras()
         for (int i = 0; i < Number_Of_Cameras; i++) {
             //Set variable called i to 0, for i is less than Number_Of_Cameras, increment 1 to i
-            CameraInfo info = new CameraInfo();
+            Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
-            if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 CameraId = i;
                 cameraFront = true;
                 break;
@@ -71,13 +73,17 @@ public class MainActivity extends Activity {
         //get the number of cameras
         //for every camera check
         for (int i = 0; i < Number_Of_Cameras; i++) {
-            CameraInfo info = new CameraInfo();
+            Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
-            if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 CameraId = i;
                 cameraFront = false;
                 break;
+                // CameraInfo couldnt be resolved and so therefore CTRL @Space@ was used to change the identifier
+
+
             }
         }
         return CameraId;
     }
+}
