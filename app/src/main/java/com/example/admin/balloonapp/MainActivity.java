@@ -43,5 +43,41 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
-}
+    private int findFrontFacingCamera() {
+        int CameraId = -1;//Set an integer variable called CameraId to -1
+        int Number_Of_Cameras = Camera.getNumberOfCameras();
+        //Set Number_Of_Cameras to the integer returned from the function .getNumberOfCameras()
+        for (int i = 0; i < Number_Of_Cameras; i++) {
+            //Set variable called i to 0, for i is less than Number_Of_Cameras, increment 1 to i
+            CameraInfo info = new CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+                CameraId = i;
+                cameraFront = true;
+                break;
+            }
+        }
+        return CameraId;
+    }
+
+    //An variable called number_Of_Cameras is set as an integer and it equals to the number returned from the function .getNumberOfCameras()
+    //Search for the back facing camera
+    private int findBackCamera() {
+        int CameraId = -1;
+        int Number_Of_Cameras = Camera.getNumberOfCameras();
+        //get the number of cameras
+        //for every camera check
+        for (int i = 0; i < Number_Of_Cameras; i++) {
+            CameraInfo info = new CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
+                CameraId = i;
+                cameraFront = false;
+                break;
+            }
+        }
+        return CameraId;
+    }
