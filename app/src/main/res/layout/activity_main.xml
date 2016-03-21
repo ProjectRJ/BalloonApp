@@ -4,21 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
-<<<<<<< HEAD
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Raphael is the best."
-        android:id="@+id/textView" />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="GPS "
-        android:onClick="GPS ON"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
-=======
     <LinearLayout
         android:id="@+id/camera_preview"
         android:layout_width="fill_parent"
@@ -46,4 +31,3 @@
             android:layout_marginTop="100dp"/>
     </LinearLayout>
 </LinearLayout>
->>>>>>> refs/remotes/origin/New-layout-camera
