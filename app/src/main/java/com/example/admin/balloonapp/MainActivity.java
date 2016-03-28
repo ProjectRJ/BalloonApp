@@ -1,5 +1,6 @@
 package com.example.admin.balloonapp;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.*;
@@ -8,6 +9,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -22,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -34,9 +42,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 
-
 public class MainActivity extends Activity {
-
 
     private boolean cameraFront;
 
@@ -46,6 +52,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         findFrontFacingCamera();
+        findBackCamera();
     }
 
     private int findFrontFacingCamera() {
