@@ -2,7 +2,7 @@ package com.example.admin.balloonapp;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,38 +19,21 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+
+
 import java.text.DateFormat;
 import java.util.Date;
 
-/**
- * Getting Location Updates.
- *
- * Demonstrates how to use the Fused Location Provider API to get updates about a device's
- * location. The Fused Location Provider is part of the Google Play services location APIs.
- *
- * For a simpler example that shows the use of Google Play services to fetch the last known location
- * of a device, see
- * https://github.com/googlesamples/android-play-location/tree/master/BasicLocation.
- *
- * This sample uses Google Play services, but it does not require authentication. For a sample that
- * uses Google Play services for authentication, see
- * https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart.
- */
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     private static final int Location_request = 0;
     protected static final String TAG = "location-updates-sample";
 
-    /**
-     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
-     */
+    //How long it waits to update. Inexact. Updates may be more or less frequent
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
 
-    /**
-     * The fastest rate for active location updates. Exact. Updates will never be more frequent
-     * than this value.
-     */
+    //The fastest rate for active location updates. Exact.
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
@@ -59,19 +42,13 @@ public class MainActivity extends ActionBarActivity implements
     protected final static String LOCATION_KEY = "location-key";
     protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
 
-    /**
-     * Provides the entry point to Google Play services.
-     */
+    //Provides the entry point to Google Play services.
     protected GoogleApiClient mGoogleApiClient;
 
-    /**
-     * Stores parameters for requests to the FusedLocationProviderApi.
-     */
+    //Stores parameters for requests to the FusedLocationProviderApi.
     protected LocationRequest mLocationRequest;
 
-    /**
-     * Represents a geographical location.
-     */
+    //Represents a geographical location.
     protected Location mCurrentLocation;
 
     // UI Widgets.
@@ -86,15 +63,11 @@ public class MainActivity extends ActionBarActivity implements
     protected String mLongitudeLabel;
     protected String mLastUpdateTimeLabel;
 
-    /**
-     * Tracks the status of the location updates request. Value changes when the user presses the
-     * Start Updates and Stop Updates buttons.
-     */
+    //Tracks the status of the location updates request. Value changes when the user presses the
+    //Start Updates and Stop Updates buttons.
     protected Boolean mRequestingLocationUpdates;
 
-    /**
-     * Time when the location was updated represented as a String.
-     */
+    //Time when the location was updated represented as a String.
     protected String mLastUpdateTime;
 
     @Override
@@ -157,10 +130,8 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    /**
-     * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
-     * LocationServices API.
-     */
+    //Starts a GoogleApiClient. Uses the {@code #addApi} method to request the
+    //LocationServices API.
     protected synchronized void buildGoogleApiClient() {
         Log.i(TAG, "Building GoogleApiClient");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -171,19 +142,7 @@ public class MainActivity extends ActionBarActivity implements
         createLocationRequest();
     }
 
-    /**
-     * Sets up the location request. Android has two location request settings:
-     * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
-     * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
-     * the AndroidManifest.xml.
-     * <p/>
-     * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
-     * interval (5 seconds), the Fused Location Provider API returns location updates that are
-     * accurate to within a few feet.
-     * <p/>
-     * These settings are appropriate for mapping applications that show real-time location
-     * updates.
-     */
+    //Sets up the location request. Uses ACCESS_FINE_LOCATION, as defined
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
 
@@ -200,10 +159,8 @@ public class MainActivity extends ActionBarActivity implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    /**
-     * Handles the Start Updates button and requests start of location updates. Does nothing if
-     * updates have already been requested.
-     */
+    //Handles the Start Updates button and requests start of location updates. Does nothing if
+    //updates have already been requested.
     public void startUpdatesButtonHandler(View view) {
         if (!mRequestingLocationUpdates) {
             mRequestingLocationUpdates = true;
@@ -212,10 +169,8 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    /**
-     * Handles the Stop Updates button, and requests removal of location updates. Does nothing if
-     * updates were not previously requested.
-     */
+    //Handles the Stop Updates button, and requests removal of location updates. Does nothing if
+    //updates were not previously requested.
     public void stopUpdatesButtonHandler(View view) {
         if (mRequestingLocationUpdates) {
             mRequestingLocationUpdates = false;
@@ -224,21 +179,13 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    /**
-     * Requests location updates from the FusedLocationApi.
-     */
+    //Requests location updates from the FusedLocationApi.
     protected void startLocationUpdates() {
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
     }
 
-    /**
-     * Ensures that only one button is enabled at any time. The Start Updates button is enabled
-     * if the user is not requesting location updates. The Stop Updates button is enabled if the
-     * user is requesting location updates.
-     */
+    //Ensures that only one button is enabled at any time.
     private void setButtonsEnabledState() {
         if (mRequestingLocationUpdates) {
             mStartUpdatesButton.setEnabled(false);
@@ -249,9 +196,7 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    /**
-     * Updates the latitude, the longitude, and the last location time in the UI.
-     */
+    //Updates the latitude, the longitude, and the last location time in the UI.
     private void updateUI() {
         mLatitudeTextView.setText(String.format("%s: %f", mLatitudeLabel,
                 mCurrentLocation.getLatitude()));
@@ -261,16 +206,9 @@ public class MainActivity extends ActionBarActivity implements
                 mLastUpdateTime));
     }
 
-    /**
-     * Removes location updates from the FusedLocationApi.
-     */
+    //Removes location updates from the FusedLocationApi.
     protected void stopLocationUpdates() {
-        // It is a good practice to remove location requests when the activity is in a paused or
-        // stopped state. Doing so helps battery performance and is especially
-        // recommended in applications that request frequent location updates.
-
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
+        //Stops the location updates.
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
@@ -279,7 +217,6 @@ public class MainActivity extends ActionBarActivity implements
         super.onStart();
         mGoogleApiClient.connect();
         CheckLocationPermission();
-
     }
 
     @Override
@@ -288,7 +225,6 @@ public class MainActivity extends ActionBarActivity implements
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
-
         if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
             startLocationUpdates();
         }
@@ -306,13 +242,10 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onStop() {
         mGoogleApiClient.disconnect();
-
         super.onStop();
     }
 
-    /**
-     * Runs when a GoogleApiClient object successfully connects.
-     */
+    //Runs when a GoogleApiClient object successfully connects.
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
@@ -341,9 +274,7 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    /**
-     * Callback that fires when the location changes.
-     */
+    //Callback that fires when the location changes.
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
@@ -369,9 +300,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
 
-    /**
-     * Stores activity data in the Bundle.
-     */
+    //Stores activity data in the Bundle.
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, mRequestingLocationUpdates);
         savedInstanceState.putParcelable(LOCATION_KEY, mCurrentLocation);
